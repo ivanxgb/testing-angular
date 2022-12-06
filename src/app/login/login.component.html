@@ -1,1 +1,35 @@
-<p>login works!</p>
+<ng-container *ngIf="showRegisterForm then registerTemplate else loginTemplate"> </ng-container>
+<button type="button" (click)="toggleRegister()"> {{showRegisterForm ? "Login with account" : "Register new account"}} </button>
+
+<ng-template #loginTemplate>
+  <form [formGroup]="loginForm">
+  <label>
+    Email:
+    <input type="email" formControlName="email" />
+  </label>
+  <label>
+    Password:
+    <input type="password" formControlName="password" />
+  </label>
+  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</ng-template>
+
+
+<ng-template #registerTemplate>
+  <form [formGroup]="registerForm">
+    <label>
+      Email:
+      <input type="email" formControlName="email" />
+    </label>
+    <label>
+      Password:
+      <input type="password" formControlName="password" />
+    </label>
+    <label>
+      Confirm Password:
+      <input type="password" formControlName="confirmPassword" />
+    </label>
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</ng-template>
