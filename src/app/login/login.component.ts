@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators as V} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators as V} from "@angular/forms";
+import {AuthService} from "../services/auth/auth.service";
+import {AuthBodyInterface} from "../response-interfaces/AuthBody.interface";
 
 @Component({
   selector: 'app-login',
@@ -7,30 +9,62 @@ import {FormBuilder, FormGroup, Validators as V} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  registerForm!: FormGroup
-  showRegisterForm: boolean = false;
-  constructor(private fb: FormBuilder) {}
+  form!: FormGroup;
+  registerForm: boolean = false;
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [V.required, V.email]],
-      password: ['', [V.required, V.minLength(6)]]
-    });
-
-    this.registerForm = this.fb.group({
+    this.form = this.fb.group({
       email: ['', [V.required, V.email]],
       password: ['', V.required],
-      confirmPassword: ['', [V.required, V.minLength(6)]]
     });
   }
 
+  get email(): AbstractControl {
+    return this.form.get('email')!;
+  }
 
-  onSubmit() {
-    console.log(this.loginForm.value);
+  get password(): AbstractControl {
+    return this.form.get('password')!;
   }
 
   toggleRegister() {
-    this.showRegisterForm = !this.showRegisterForm;
+    this.registerForm = !this.registerForm;
+  }
+
+  handleLogin() {
+    this.authService.login(this.extractBody()).subscribe(
+      {
+        next: (response) => {
+          console.log(response);
+        }
+      }
+    );
+  }
+
+  handleRegister() {
+    this.authService.register(this.extractBody()).subscribe(
+      {
+        next: (response) => {
+          console.log(response);
+        }
+      }
+    );
+  }
+
+  onSubmit() {
+    if (this.registerForm) {
+      this.handleRegister();
+      return;
+    }
+
+    this.handleLogin();
+  }
+
+  private extractBody(): AuthBodyInterface {
+    return {
+      email: this.email.value,
+      password: this.password.value
+    }
   }
 }
