@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators as V} from "@angular/forms";
 import {AuthService} from "../services/auth/auth.service";
 import {AuthBodyInterface} from "../response-interfaces/AuthBody.interface";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -9,9 +10,10 @@ import {AuthBodyInterface} from "../response-interfaces/AuthBody.interface";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  errorFlag = false;
   form!: FormGroup;
   registerForm: boolean = false;
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -30,13 +32,21 @@ export class LoginComponent implements OnInit {
 
   toggleRegister() {
     this.registerForm = !this.registerForm;
+    this.errorFlag = false;
+    this.email.setValue('');
+    this.password.setValue('');
   }
 
   handleLogin() {
     this.authService.login(this.extractBody()).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          if (response) {
+            this.redirectToHome();
+          }
+        },
+        error: () => {
+          this.setError();
         }
       }
     );
@@ -46,7 +56,12 @@ export class LoginComponent implements OnInit {
     this.authService.register(this.extractBody()).subscribe(
       {
         next: (response) => {
-          console.log(response);
+          if (response) {
+            this.redirectToHome();
+          }
+        },
+        error: () => {
+          this.setError();
         }
       }
     );
@@ -59,6 +74,14 @@ export class LoginComponent implements OnInit {
     }
 
     this.handleLogin();
+  }
+
+  setError() {
+    this.errorFlag = true;
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/']);
   }
 
   private extractBody(): AuthBodyInterface {

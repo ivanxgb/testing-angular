@@ -1,4 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-error *ngIf="errorFlag">
+    It was an error trying to {{registerForm ? "Register" : "Login"}}.
+    Please try again.
+  </mat-error>
   <mat-form-field>
     <mat-label>Email:</mat-label>
     <input matInput type="email" formControlName="email" />
