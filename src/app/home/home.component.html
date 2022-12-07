@@ -1,1 +1,7 @@
-<p>home works!</p>
+<h1>Welcome to HomePage</h1>
+
+<p *ngIf="isAuthenticated">You're signed in</p>
+<p *ngIf="!isAuthenticated">You're not signed in</p>
+
+<button mat-raised-button color="primary" *ngIf="!isAuthenticated" (click)="onLogin()">Login</button>
+<button mat-raised-button color="primary" *ngIf="isAuthenticated" (click)="onLogout()">Logout</button>
