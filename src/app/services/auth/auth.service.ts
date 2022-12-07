@@ -51,4 +51,8 @@ export class AuthService {
   handleSave(response: AuthInterface) {
     this.saveToken(response.token!);
   }
+
+  getToken(): string | null {
+    return localStorage.getItem("token");
+  }
 }
