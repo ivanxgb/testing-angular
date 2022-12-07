@@ -3,6 +3,7 @@ import {environment} from "../../../environments/env";
 import {HttpClient} from "@angular/common/http";
 import {AuthInterface} from "../../response-interfaces/authInterface";
 import {Observable} from "rxjs";
+import {AuthBodyInterface} from "../../response-interfaces/AuthBody.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +13,11 @@ export class AuthService {
   private host = environment.urlApi;
   constructor(private httpClient: HttpClient) { }
 
-  login(email: string | null = null, password: string | null = null): Observable<AuthInterface> {
-    return this.httpClient.post<AuthInterface>(`${this.host}login`, {
-      email,
-      password
-    });
+  login(body: AuthBodyInterface): Observable<AuthInterface> {
+    return this.httpClient.post<AuthInterface>(`${this.host}login`, body);
   }
 
-  register(email: string | null = null, password: string | null = null): Observable<AuthInterface> {
-    return this.httpClient.post<AuthInterface>(`${this.host}register`, {
-      email,
-      password
-    });
+  register(body: AuthBodyInterface): Observable<AuthInterface> {
+    return this.httpClient.post<AuthInterface>(`${this.host}register`, body);
   }
 }
