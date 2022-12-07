@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../services/auth/auth.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../services/auth/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  isAuthenticated: boolean = false;
+  isAuthenticated = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   }
 
   onLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 
   onLogout() {

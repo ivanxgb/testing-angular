@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-error *ngIf="errorFlag">
-    It was an error trying to {{registerForm ? "Register" : "Login"}}.
-    Please try again.
+    It was an error trying to {{ registerForm ? "Register" : "Login" }}. Please
+    try again.
   </mat-error>
   <mat-form-field>
     <mat-label>Email:</mat-label>
@@ -13,6 +13,18 @@
     <input matInput type="password" formControlName="password" />
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{registerForm ? "Register" : "Login"}}</button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="form.invalid">
+    {{ registerForm ? "Register" : "Login" }}
+  </button>
 </form>
-<button mat-stroked-button color="accent" type="button" (click)="toggleRegister()"> {{registerForm ? "Login with account" : "Register new account"}} </button>
+<button
+  mat-stroked-button
+  color="accent"
+  type="button"
+  (click)="toggleRegister()">
+  {{ registerForm ? "Login with account" : "Register new account" }}
+</button>

@@ -1,70 +1,75 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators as V} from "@angular/forms";
-import {AuthService} from "../services/auth/auth.service";
-import {AuthBodyInterface} from "../response-interfaces/AuthBody.interface";
-import {Router} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators as V,
+} from "@angular/forms";
+import { AuthService } from "../services/auth/auth.service";
+import { AuthBodyInterface } from "../response-interfaces/AuthBody.interface";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   errorFlag = false;
   form!: FormGroup;
-  registerForm: boolean = false;
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  registerForm = false;
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ['', [V.required, V.email]],
-      password: ['', V.required],
+      email: ["", [V.required, V.email]],
+      password: ["", V.required],
     });
   }
 
   get email(): AbstractControl {
-    return this.form.get('email')!;
+    return this.form.get("email")!;
   }
 
   get password(): AbstractControl {
-    return this.form.get('password')!;
+    return this.form.get("password")!;
   }
 
   toggleRegister() {
     this.registerForm = !this.registerForm;
     this.errorFlag = false;
-    this.email.setValue('');
-    this.password.setValue('');
+    this.email.setValue("");
+    this.password.setValue("");
   }
 
   handleLogin() {
-    this.authService.login(this.extractBody()).subscribe(
-      {
-        next: (response) => {
-          if (response) {
-            this.redirectToHome();
-          }
-        },
-        error: () => {
-          this.setError();
+    this.authService.login(this.extractBody()).subscribe({
+      next: (response) => {
+        if (response) {
+          this.redirectToHome();
         }
-      }
-    );
+      },
+      error: () => {
+        this.setError();
+      },
+    });
   }
 
   handleRegister() {
-    this.authService.register(this.extractBody()).subscribe(
-      {
-        next: (response) => {
-          if (response) {
-            this.redirectToHome();
-          }
-        },
-        error: () => {
-          this.setError();
+    this.authService.register(this.extractBody()).subscribe({
+      next: (response) => {
+        if (response) {
+          this.redirectToHome();
         }
-      }
-    );
+      },
+      error: () => {
+        this.setError();
+      },
+    });
   }
 
   onSubmit() {
@@ -81,13 +86,13 @@ export class LoginComponent implements OnInit {
   }
 
   redirectToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(["/"]);
   }
 
   private extractBody(): AuthBodyInterface {
     return {
       email: this.email.value,
-      password: this.password.value
-    }
+      password: this.password.value,
+    };
   }
 }
