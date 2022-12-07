@@ -13,8 +13,11 @@ label {
   margin-bottom: 8px;
 }
 
-input {
+mat-form-field {
   width: 100%;
+}
+
+mat-input-element {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -45,7 +48,6 @@ button {
   cursor: pointer;
 }
 
-/* Ajustes para dispositivos móviles */
 @media (max-width: 600px) {
   form {
     padding: 10px;
@@ -54,6 +56,10 @@ button {
 
   label {
     margin-bottom: 4px;
+  }
+
+  mat-input-element {
+    padding: 4px;
   }
 
   button[type="submit"] {
